@@ -40,7 +40,7 @@
 {
     [super viewWillLayoutSubviews];
     
-    self.tableView.frame = CGRectMake(0.0, 20.0, self.view.frame.size.width, self.view.frame.size.height);
+    self.tableView.frame = CGRectMake(0.0, 20.0, self.view.frame.size.width, self.view.frame.size.height - 20.0f);
 }
 
 #pragma mark - Parse HTML from horriblesubs.info
@@ -127,8 +127,14 @@
     }
     
     cell.textLabel.text = self.currentReleases[indexPath.row];
-    
+    cell.textLabel.numberOfLines = 2;
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://horriblesubs.info"]];
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -141,4 +147,8 @@
     return 1;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 60.0f;
+}
 @end
